@@ -202,8 +202,8 @@ code {
   background: #fafafa;
   height: 48px;
   border-radius: 0 0 16px 16px;
-  margin: 48px -2rem -64px -2rem;
-  padding: 0 8px 0 8px;
+  margin: 48px -2rem -48px -2rem;
+  padding: 0 8px;
   display: flex;
   align-items: center;
   justify-content: space-between;
