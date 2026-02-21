@@ -3,7 +3,7 @@
  * Run: node test-import.cjs
  * (Types like PromptData exist only in .d.ts; they are not runtime exports.)
  */
-const pkg = require("prompt-input");
+const pkg = require("@sametozkale/prompt-input");
 
 const requiredValues = [
   "AIPromptInput",

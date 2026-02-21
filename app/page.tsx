@@ -55,14 +55,14 @@ function V0Icon() {
 }
 
 const INSTALL_CODE = `# Core package
-npm install prompt-input
+npm install @sametozkale/prompt-input
 
 # Peer dependencies (if not already installed)
 npm install framer-motion @radix-ui/react-dropdown-menu @radix-ui/react-select lucide-react`;
 
 const REACT_CODE = `import { useState } from "react";
-import { AIPromptInput } from "prompt-input";
-import type { PromptData } from "prompt-input";
+import { AIPromptInput } from "@sametozkale/prompt-input";
+import type { PromptData } from "@sametozkale/prompt-input";
 
 function ChatPage() {
   const [messages, setMessages] = useState<{ role: "user"; text: string }[]>([]);
@@ -90,7 +90,7 @@ module.exports = {
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./node_modules/prompt-input/dist/**/*.js",
+    "./node_modules/@sametozkale/prompt-input/dist/**/*.js",
   ],
   // ...
 };`;
@@ -129,8 +129,8 @@ export default function Home() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="demo-action-btn"
-                    title="View prompt-input on npm (new tab)"
-                    aria-label="View prompt-input on npm (opens in new tab)"
+                    title="View @sametozkale/prompt-input on npm (new tab)"
+                    aria-label="View @sametozkale/prompt-input on npm (opens in new tab)"
                   >
                     <NpmIcon />
                     View on npm

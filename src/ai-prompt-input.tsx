@@ -68,6 +68,7 @@ export function AIPromptInput({
   const [dropdownOpenCount, setDropdownOpenCount] = useState(0);
   const [isSingleLine, setIsSingleLine] = useState(true);
   const scrollYBeforeOpenRef = useRef(0);
+  const bodyStylesRef = useRef<{ overflow: string; paddingRight: string } | null>(null);
 
   const hasContent = text.trim().length > 0 || attachedFiles.length > 0;
   const isToolbarVisible =
@@ -78,6 +79,35 @@ export function AIPromptInput({
       scrollYBeforeOpenRef.current = window.scrollY;
     }
   }, []);
+
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    const body = document.body;
+    if (dropdownOpenCount > 0) {
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+      bodyStylesRef.current = {
+        overflow: body.style.overflow,
+        paddingRight: body.style.paddingRight,
+      };
+      body.style.overflow = "hidden";
+      if (scrollbarWidth > 0) {
+        body.style.paddingRight = `${scrollbarWidth}px`;
+      }
+    } else {
+      if (bodyStylesRef.current) {
+        body.style.overflow = bodyStylesRef.current.overflow;
+        body.style.paddingRight = bodyStylesRef.current.paddingRight;
+        bodyStylesRef.current = null;
+      }
+    }
+    return () => {
+      if (bodyStylesRef.current) {
+        body.style.overflow = bodyStylesRef.current.overflow;
+        body.style.paddingRight = bodyStylesRef.current.paddingRight;
+        bodyStylesRef.current = null;
+      }
+    };
+  }, [dropdownOpenCount]);
 
   const handleDropdownOpenChange = useCallback((open: boolean) => {
     setDropdownOpenCount((prev) => (open ? prev + 1 : Math.max(0, prev - 1)));

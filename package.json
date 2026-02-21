@@ -1,5 +1,5 @@
 {
-  "name": "prompt-input",
+  "name": "@sametozkale/prompt-input",
   "version": "1.0.0",
   "description": "A production-ready prompt input with agent selector, sources, file attach, and research mode",
   "private": false,

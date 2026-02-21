@@ -14,7 +14,7 @@
     "@radix-ui/react-select": "^2.2.6",
     "framer-motion": "^12.34.3",
     "lucide-react": "^0.575.0",
-    "prompt-input": "file:../prompt-input-1.0.0.tgz",
+    "@sametozkale/prompt-input": "file:../prompt-input-1.0.0.tgz",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
   }

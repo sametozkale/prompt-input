@@ -7,7 +7,7 @@ import {
   DEFAULT_AGENTS,
   DEFAULT_RESEARCH_MODELS,
   DEFAULT_CONNECTOR_SOURCES,
-} from "prompt-input";
+} from "@sametozkale/prompt-input";
 
 if (typeof AIPromptInput !== "function") {
   console.error("AIPromptInput is not a function:", typeof AIPromptInput);

@@ -1,16 +1,16 @@
-const NPM_URL = "https://www.npmjs.com/package/prompt-input";
+const NPM_URL = "https://www.npmjs.com/package/@sametozkale/prompt-input";
 
 /** Prompt pre-filled when opening in Cursor: install + minimal usage. */
 const CURSOR_PROMPT = [
-  "Add prompt-input to my project.",
-  "Run: npm install prompt-input framer-motion @radix-ui/react-dropdown-menu @radix-ui/react-select lucide-react",
-  "Then add a usage example with AIPromptInput from 'prompt-input'.",
+  "Add @sametozkale/prompt-input to my project.",
+  "Run: npm install @sametozkale/prompt-input framer-motion @radix-ui/react-dropdown-menu @radix-ui/react-select lucide-react",
+  "Then add a usage example with AIPromptInput from '@sametozkale/prompt-input'.",
 ].join("\n");
 
 const CURSOR_URL = `https://cursor.com/link/prompt?text=${encodeURIComponent(CURSOR_PROMPT)}`;
 const V0_URL = "https://v0.dev";
 
-const CURSOR_LINK_TITLE = "Opens Cursor with a prompt to add prompt-input to your project (new tab)";
+const CURSOR_LINK_TITLE = "Opens Cursor with a prompt to add @sametozkale/prompt-input to your project (new tab)";
 const V0_LINK_TITLE = "Opens v0.dev to design and build with AI (new tab)";
 
 export function PageFooter() {
@@ -18,7 +18,7 @@ export function PageFooter() {
     <footer className="page-footer">
       <hr className="page-footer-divider" />
       <div className="page-footer-links">
-        <a href={NPM_URL} target="_blank" rel="noopener noreferrer" title="View prompt-input on npm">
+        <a href={NPM_URL} target="_blank" rel="noopener noreferrer" title="View @sametozkale/prompt-input on npm">
           View on npm
         </a>
         <a

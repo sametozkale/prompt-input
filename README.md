@@ -5,7 +5,7 @@ A production-ready prompt input component with agent selector, sources toggle, f
 ## Installation
 
 ```shell
-npm install prompt-input
+npm install @sametozkale/prompt-input
 ```
 
 Install peer dependencies if not already in your project:
@@ -23,7 +23,7 @@ module.exports = {
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./node_modules/prompt-input/dist/**/*.js",
+    "./node_modules/@sametozkale/prompt-input/dist/**/*.js",
   ],
   // ...
 };
@@ -34,10 +34,10 @@ module.exports = {
 ```css
 @import "tailwindcss";
 
-@source "../node_modules/prompt-input/dist/**/*.js";
+@source "../node_modules/@sametozkale/prompt-input/dist/**/*.js";
 ```
 
-Or in `tailwind.config.ts`: set `content` (or the v4 equivalent) to include `"./node_modules/prompt-input/dist/**/*.js"`.
+Or in `tailwind.config.ts`: set `content` (or the v4 equivalent) to include `"./node_modules/@sametozkale/prompt-input/dist/**/*.js"`.
 
 ## Usage
 
@@ -45,8 +45,8 @@ When the user submits (send button or Cmd/Ctrl+Enter), `onSubmit` is called with
 
 ```tsx
 import { useState } from "react";
-import { AIPromptInput } from "prompt-input";
-import type { PromptData } from "prompt-input";
+import { AIPromptInput } from "@sametozkale/prompt-input";
+import type { PromptData } from "@sametozkale/prompt-input";
 
 function ChatPage() {
   const [messages, setMessages] = useState<{ role: "user"; text: string }[]>([]);
@@ -117,7 +117,7 @@ The component uses Tailwind CSS classes. Override styles by passing a custom `cl
 
 - [Demo](https://prompt-input.vercel.app/)
 - [GitHub](https://github.com/sametozkale/prompt-input)
-- [npm](https://www.npmjs.com/package/prompt-input)
+- [npm](https://www.npmjs.com/package/@sametozkale/prompt-input)
 
 ## License
 
