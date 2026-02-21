@@ -1,0 +1,9 @@
+/* TEAM */
+Developer: Samet Ozkale
+Site: https://samet.works
+
+/* SITE */
+Last update: 2026
+Language: English
+Standards: HTML5, CSS3, React, TypeScript
+Components: Prompt Input

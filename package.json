@@ -1,0 +1,83 @@
+{
+  "name": "prompt-input",
+  "version": "1.0.0",
+  "description": "A production-ready prompt input with agent selector, sources, file attach, and research mode",
+  "private": false,
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build:lib": "tsup",
+    "dev": "next dev",
+    "build": "next build",
+    "build:all": "tsup && next build",
+    "start": "next start",
+    "lint": "next lint",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "pack": "npm run build:lib && npm pack",
+    "prepublishOnly": "npm run build:lib"
+  },
+  "dependencies": {
+    "@radix-ui/react-dropdown-menu": ">=2",
+    "@radix-ui/react-select": ">=2",
+    "framer-motion": ">=11",
+    "lucide-react": ">=0.400",
+    "next": "16.1.6",
+    "react": ">=18",
+    "react-dom": ">=18",
+    "shiki": "^3.22.0"
+  },
+  "peerDependencies": {
+    "@radix-ui/react-dropdown-menu": ">=2",
+    "@radix-ui/react-select": ">=2",
+    "framer-motion": ">=11",
+    "lucide-react": ">=0.400",
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.1.6",
+    "tailwindcss": "^4",
+    "tsup": "^8.0.0",
+    "typescript": "^5",
+    "vitest": "^2",
+    "@testing-library/react": "^16",
+    "jsdom": "^25",
+    "@testing-library/jest-dom": "^6"
+  },
+  "keywords": [
+    "ai",
+    "prompt",
+    "input",
+    "react",
+    "textarea",
+    "agent",
+    "chat"
+  ],
+  "author": "Samet Ozkale (https://samet.works)",
+  "license": "MIT",
+  "homepage": "https://prompt-input.vercel.app/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sametozkale/prompt-input.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sametozkale/prompt-input/issues"
+  }
+}

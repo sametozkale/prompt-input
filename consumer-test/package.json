@@ -1,0 +1,21 @@
+{
+  "name": "consumer-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@radix-ui/react-dropdown-menu": "^2.1.16",
+    "@radix-ui/react-select": "^2.2.6",
+    "framer-motion": "^12.34.3",
+    "lucide-react": "^0.575.0",
+    "prompt-input": "file:../prompt-input-1.0.0.tgz",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
+  }
+}

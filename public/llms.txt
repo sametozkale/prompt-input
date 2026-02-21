@@ -1,0 +1,40 @@
+# Prompt Input
+
+> A production-ready prompt input React component with agent selector, sources toggle, file attach, and deep research mode. Use it to build ChatGPT-style or Perplexity-style chat interfaces.
+
+## Overview
+
+Prompt Input is an npm package (`prompt-input`) that provides a fully-featured prompt input UI. It includes: Agent/Task selector, Sources menu (Web, Social media, Academic), file attachment with inline chips, voice input button with waveform animation, and Deep Research / Fast / Standard model selector. Built with React, Tailwind CSS, Radix UI, and Framer Motion.
+
+## Installation
+
+```bash
+npm install prompt-input
+npm install framer-motion @radix-ui/react-dropdown-menu @radix-ui/react-select lucide-react
+```
+
+Requires Tailwind CSS. Add to tailwind.config.js content: `./node_modules/prompt-input/dist/**/*.js`
+
+## Usage
+
+```tsx
+import { AIPromptInput } from "prompt-input";
+import type { PromptData } from "prompt-input";
+
+<AIPromptInput onSubmit={(data: PromptData) => console.log(data)} />
+```
+
+## Links
+
+- [Demo](https://prompt-input.vercel.app/): Live showcase with default and dark theme examples
+- [GitHub](https://github.com/sametozkale/prompt-input): Source code and issues
+- [npm](https://www.npmjs.com/package/prompt-input): Package registry
+
+## Contact
+
+- Author: Samet Ozkale
+- Website: https://samet.works
+
+## License
+
+MIT
