@@ -112,10 +112,9 @@ export default function Home() {
         <section>
           <h2>Default</h2>
           <p>
-            The component includes a textarea, agent selector, sources menu, file
-            attach, voice input, and research model selector. Submit with the send
-            button or Cmd/Ctrl+Enter; the prompt is passed to{" "}
-            <code>onSubmit</code> and you can display it in your chat.
+            Type your prompt, then press Enter or click the send button to submit.
+            Shift+Enter adds a new line. The prompt is sent to{" "}
+            <code>onSubmit</code> so you can show it in your chat.
           </p>
           <div className="demo-box-breakout">
             <div className="demo-box">

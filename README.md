@@ -41,7 +41,7 @@ Or in `tailwind.config.ts`: set `content` (or the v4 equivalent) to include `"./
 
 ## Usage
 
-When the user submits (send button or Cmd/Ctrl+Enter), `onSubmit` is called with the full `PromptData`. The component then clears the input. Use `onSubmit` to add the prompt to your chat and send it to your API. When **Task** is selected (instead of Agent), the placeholder shows "Describe a task to automate" unless you pass a custom `placeholder`.
+When the user submits (send button, Enter when there is text, or Cmd/Ctrl+Enter), `onSubmit` is called with the full `PromptData`. Use Shift+Enter for a new line. The component then clears the input. Use `onSubmit` to add the prompt to your chat and send it to your API. When **Task** is selected (instead of Agent), the placeholder shows "Describe a task to automate" unless you pass a custom `placeholder`.
 
 ```tsx
 import { useState } from "react";
@@ -76,7 +76,7 @@ function ChatPage() {
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `onSubmit` | `(data: PromptData) => void \| Promise<void>` | - | Called when the user submits (Cmd/Ctrl+Enter or send button). May be sync or async; the input is cleared after success. Add `data.text` to your chat in this handler. |
+| `onSubmit` | `(data: PromptData) => void \| Promise<void>` | - | Called when the user submits (Enter with text, Cmd/Ctrl+Enter, or send button). Shift+Enter inserts a new line. May be sync or async; the input is cleared after success. Add `data.text` to your chat in this handler. |
 | `onVoiceRecord` | `(audio: Blob) => void` | - | Called when voice recording finishes. **Voice UI only:** the component provides the button and recording state; actual capture (e.g. MediaRecorder) is app-specific—implement it and pass the resulting blob here. |
 | `onFileAttach` | `(files: File[]) => void` | - | Called when files are attached or removed |
 | `onFileRejected` | `(rejected: File[]) => void` | - | Called when one or more files are rejected (e.g. exceed `maxFileSize`) |

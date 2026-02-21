@@ -8,10 +8,11 @@ const CURSOR_PROMPT = [
 ].join("\n");
 
 const CURSOR_URL = `https://cursor.com/link/prompt?text=${encodeURIComponent(CURSOR_PROMPT)}`;
-const V0_URL = "https://v0.dev";
+const V0_PROMPT = "Add the prompt input component from @sametozkale/prompt-input to my app. Install: npm install @sametozkale/prompt-input and peer deps. Use AIPromptInput from '@sametozkale/prompt-input'.";
+const V0_URL = `https://v0.dev/chat?prompt=${encodeURIComponent(V0_PROMPT)}`;
 
 const CURSOR_LINK_TITLE = "Opens Cursor with a prompt to add @sametozkale/prompt-input to your project (new tab)";
-const V0_LINK_TITLE = "Opens v0.dev to design and build with AI (new tab)";
+const V0_LINK_TITLE = "Opens v0.dev with a prompt to add @sametozkale/prompt-input (new tab)";
 
 export function PageFooter() {
   return (
@@ -53,4 +54,4 @@ export function PageFooter() {
   );
 }
 
-export { NPM_URL, CURSOR_URL, V0_URL, CURSOR_PROMPT, CURSOR_LINK_TITLE, V0_LINK_TITLE };
+export { NPM_URL, CURSOR_URL, V0_URL, V0_PROMPT, CURSOR_PROMPT, CURSOR_LINK_TITLE, V0_LINK_TITLE };

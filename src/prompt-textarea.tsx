@@ -56,12 +56,14 @@ export function PromptTextarea({
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
-        e.preventDefault();
+      if (e.key !== "Enter") return;
+      if (e.shiftKey) return; // Shift+Enter = new line
+      e.preventDefault();
+      if ((e.metaKey || e.ctrlKey) || value.trim().length > 0) {
         onSubmit();
       }
     },
-    [onSubmit]
+    [onSubmit, value]
   );
 
   const handleChange = useCallback(
