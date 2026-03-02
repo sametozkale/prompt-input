@@ -8,7 +8,7 @@ const inter = Inter({
 });
 
 const BASE_URL = "https://prompt-input.vercel.app";
-const OG_IMAGE_PATH = "/Prompt%20Input%20-%20Metadata.jpg";
+const OG_IMAGE_PATH = "/metadata.jpg";
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
