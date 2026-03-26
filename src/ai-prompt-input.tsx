@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useEffect, useLayoutEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { X, FileText } from "lucide-react";
 import { PromptTextarea } from "./prompt-textarea";
@@ -67,8 +67,12 @@ export function AIPromptInput({
   const [isHovered, setIsHovered] = useState(false);
   const [dropdownOpenCount, setDropdownOpenCount] = useState(0);
   const [isSingleLine, setIsSingleLine] = useState(true);
+  const rootRef = useRef<HTMLDivElement | null>(null);
   const scrollYBeforeOpenRef = useRef(0);
-  const bodyStylesRef = useRef<{ overflow: string; paddingRight: string } | null>(null);
+  const scrollXBeforeOpenRef = useRef(0);
+  const scrollLockCleanupRef = useRef<null | (() => void)>(null);
+  const openScrollGuardCancelRef = useRef<null | (() => void)>(null);
+  const anchorTopRef = useRef<number | null>(null);
 
   const hasContent = text.trim().length > 0 || attachedFiles.length > 0;
   const isToolbarVisible =
@@ -77,47 +81,126 @@ export function AIPromptInput({
   const saveScrollBeforeDropdown = useCallback(() => {
     if (typeof window !== "undefined") {
       scrollYBeforeOpenRef.current = window.scrollY;
+      scrollXBeforeOpenRef.current = window.scrollX;
     }
   }, []);
 
   useEffect(() => {
-    if (typeof document === "undefined") return;
-    const body = document.body;
-    if (dropdownOpenCount > 0) {
-      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-      bodyStylesRef.current = {
-        overflow: body.style.overflow,
-        paddingRight: body.style.paddingRight,
-      };
-      body.style.overflow = "hidden";
-      if (scrollbarWidth > 0) {
-        body.style.paddingRight = `${scrollbarWidth}px`;
-      }
-    } else {
-      if (bodyStylesRef.current) {
-        body.style.overflow = bodyStylesRef.current.overflow;
-        body.style.paddingRight = bodyStylesRef.current.paddingRight;
-        bodyStylesRef.current = null;
-      }
-    }
+    if (typeof window === "undefined") return;
+    if (dropdownOpenCount <= 0) return;
+    if (scrollLockCleanupRef.current) return;
+
+    // Some browsers may scroll the page when Radix opens a menu/select.
+    // Keep the viewport locked to the scroll position captured on trigger down.
+    let raf = 0;
+    const onScroll = () => {
+      if (raf) cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        if (
+          window.scrollY !== scrollYBeforeOpenRef.current ||
+          window.scrollX !== scrollXBeforeOpenRef.current
+        ) {
+          window.scrollTo(scrollXBeforeOpenRef.current, scrollYBeforeOpenRef.current);
+        }
+      });
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    scrollLockCleanupRef.current = () => {
+      if (raf) cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", onScroll);
+    };
     return () => {
-      if (bodyStylesRef.current) {
-        body.style.overflow = bodyStylesRef.current.overflow;
-        body.style.paddingRight = bodyStylesRef.current.paddingRight;
-        bodyStylesRef.current = null;
-      }
+      scrollLockCleanupRef.current?.();
+      scrollLockCleanupRef.current = null;
     };
   }, [dropdownOpenCount]);
 
+  // Compensate for layout shifts caused by toolbar expand/collapse so the page
+  // doesn't appear to "jump" when opening/closing dropdowns.
+  useLayoutEffect(() => {
+    if (typeof window === "undefined") return;
+    const el = rootRef.current;
+    if (!el) return;
+    if (anchorTopRef.current == null) return;
+
+    const desiredTop = anchorTopRef.current;
+    const currentTop = el.getBoundingClientRect().top;
+    const delta = currentTop - desiredTop;
+    if (delta !== 0) {
+      window.scrollTo(window.scrollX, window.scrollY + delta);
+    }
+
+    // Clear after one layout pass (open/close).
+    anchorTopRef.current = null;
+  }, [dropdownOpenCount]);
+
   const handleDropdownOpenChange = useCallback((open: boolean) => {
-    setDropdownOpenCount((prev) => (open ? prev + 1 : Math.max(0, prev - 1)));
     if (typeof window !== "undefined" && open) {
-      const restore = () =>
-        window.scrollTo(0, scrollYBeforeOpenRef.current);
+      // Activate scroll lock immediately (before state/effect runs) to catch the
+      // very first auto-scroll that can happen while opening.
+      if (!scrollLockCleanupRef.current) {
+        let raf = 0;
+        const onScroll = () => {
+          if (raf) cancelAnimationFrame(raf);
+          raf = requestAnimationFrame(() => {
+            if (
+              window.scrollY !== scrollYBeforeOpenRef.current ||
+              window.scrollX !== scrollXBeforeOpenRef.current
+            ) {
+              window.scrollTo(scrollXBeforeOpenRef.current, scrollYBeforeOpenRef.current);
+            }
+          });
+        };
+        window.addEventListener("scroll", onScroll, { passive: true });
+        onScroll();
+        scrollLockCleanupRef.current = () => {
+          if (raf) cancelAnimationFrame(raf);
+          window.removeEventListener("scroll", onScroll);
+        };
+      }
+
+      // Some browsers perform a programmatic scroll during/after the open
+      // transition (focus management). Guard for a short window to prevent any
+      // visible "jump" even if no scroll events are observed.
+      openScrollGuardCancelRef.current?.();
+      const startedAt = performance.now();
+      let guardRaf = 0;
+      const guard = () => {
+        window.scrollTo(scrollXBeforeOpenRef.current, scrollYBeforeOpenRef.current);
+        if (performance.now() - startedAt < 250) {
+          guardRaf = requestAnimationFrame(guard);
+        } else {
+          openScrollGuardCancelRef.current = null;
+        }
+      };
+      guardRaf = requestAnimationFrame(guard);
+      openScrollGuardCancelRef.current = () => {
+        if (guardRaf) cancelAnimationFrame(guardRaf);
+        openScrollGuardCancelRef.current = null;
+      };
+
+      const restore = () => window.scrollTo(scrollXBeforeOpenRef.current, scrollYBeforeOpenRef.current);
       requestAnimationFrame(restore);
       requestAnimationFrame(() => requestAnimationFrame(restore));
       window.setTimeout(restore, 0);
     }
+
+    setDropdownOpenCount((prev) => {
+      if (typeof window !== "undefined") {
+        const el = rootRef.current;
+        if (el) anchorTopRef.current = el.getBoundingClientRect().top;
+      }
+      const next = open ? prev + 1 : Math.max(0, prev - 1);
+      if (next === 0) {
+        openScrollGuardCancelRef.current?.();
+        openScrollGuardCancelRef.current = null;
+        scrollLockCleanupRef.current?.();
+        scrollLockCleanupRef.current = null;
+      }
+      return next;
+    });
   }, []);
 
   const handleSubmit = useCallback(() => {
@@ -219,9 +302,11 @@ export function AIPromptInput({
 
   return (
     <motion.div
+      ref={rootRef}
       className={`group/main overflow-hidden transition-colors duration-200 rounded-2xl ${
         error ? "border-2 border-red-500" : ""
       } ${className}`}
+      style={{ overflowAnchor: "none" }}
       animate={error && !reduceMotion ? { x: [0, -6, 6, -6, 6, 0] } : false}
       transition={error && !reduceMotion ? { duration: 0.4 } : undefined}
       onMouseEnter={() => setIsHovered(true)}

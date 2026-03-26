@@ -54,11 +54,15 @@ const SelectItem = forwardRef<
 >(({ className, children, ...props }, ref) => (
   <SelectPrimitive.Item
     ref={ref}
+    data-radix-select-item=""
     className={`${SELECT_ITEM_STYLES} ${className ?? ""}`}
     {...props}
   >
     <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
-    <SelectPrimitive.ItemIndicator className="ml-auto shrink-0 text-[#17181A]">
+    <SelectPrimitive.ItemIndicator
+      data-radix-select-item-indicator=""
+      className="ml-auto shrink-0 text-current"
+    >
       <Check className="h-4 w-4" />
     </SelectPrimitive.ItemIndicator>
   </SelectPrimitive.Item>
